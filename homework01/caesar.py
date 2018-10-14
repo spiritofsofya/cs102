@@ -10,29 +10,22 @@ def encrypt_caesar(plaintext):
     ''
     """
     # PUT YOUR CODE HERE
-def encrypt_caesar(plaintext):
+
     ciphertext = ""
 
 
         for i in range(len(plaintext)):
             element = plaintext[i]
-                # Encrypt uppercase characters
+                # uppercase characters
             if (element.isupper()):
-                ciphertext += chr((ord(char) + 3 - 223) % 192 + 223)
-
-                # Encrypt lowercase characters
+                ciphertext += chr((ord(char) + 3 - 90 % 65 + 90)
+                # lowercase characters
             else:
-                ciphertext += chr((ord(char) + 3 - 255) % 224 + 255)
+                ciphertext += chr((ord(char) + 3 - 122) % 97 + 122)
 
         return ciphertext
 
-    plaintext = "питон"
-    print
-    "Text: " + plaintext
-    print
-    "Shift: 3"
-    print
-    "Cipher: " + encrypt_caesar(plaintext)
+
 
 
 def decrypt_caesar(ciphertext):
