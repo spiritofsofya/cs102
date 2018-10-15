@@ -15,7 +15,7 @@ def encrypt_caesar(plaintext):
         num = ord(character)
         if 97 <= num <= 122 or 65 <= num <= 90:
             coded_ch = num + 3
-            if coded_ch > 90 and coded_ch < 97 or coded_ch > 122:
+            if 90 < coded_ch < 97 or coded_ch > 122:
                 coded_ch -= 26
             ciphertext += chr(coded_ch)
         else:
@@ -23,10 +23,9 @@ def encrypt_caesar(plaintext):
     return ciphertext
 
 
-
-
 def decrypt_caesar(ciphertext):
     """
+    Decrypts chiphertext using a Caesar cipher.
     >>> decrypt_caesar("SBWKRQ")
     'PYTHON'
     >>> decrypt_caesar("sbwkrq")
@@ -36,5 +35,15 @@ def decrypt_caesar(ciphertext):
     >>> decrypt_caesar("")
     ''
     """
-    # PUT YOUR CODE HERE
+    plaintext = ""
+    for character in ciphertext:
+        num = ord(character)
+        if 97 <= num <= 122 or 65 <= num <= 90:
+            coded_ch = num - 3
+            if 90 < coded_ch < 97 or coded_ch < 65:
+                coded_ch += 26
+            plaintext += chr(coded_ch)
+        else:
+            plaintext += character
+
     return plaintext
