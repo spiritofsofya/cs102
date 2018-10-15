@@ -1,6 +1,5 @@
 import random
 
-
 def is_prime(n):
     """
     Tests to see if a number is prime.
@@ -31,7 +30,6 @@ def gcd(a, b):
     >>> gcd(3, 7)
     1
     """
-    # PUT YOUR CODE HERE
     while a != b:
         if a > b:
             a = a - b
@@ -41,14 +39,27 @@ def gcd(a, b):
     pass
 
 
+def extended_gcd(m, n):
+    x, lastX = 0, 1
+    y, lastY = 1, 0
+    while (m != 0):
+        q = n // m
+        n, m = m, n % m
+        x, lastX = lastX - q * x, x
+        y, lastY = lastY - q * y, y
+    return m, lastY, lastX
+
+
 def multiplicative_inverse(e, phi):
+
     """
     Euclid's extended algorithm for finding the multiplicative
     inverse of two numbers.
     >>> multiplicative_inverse(7, 40)
     23
     """
-    # PUT YOUR CODE HERE
+    g, x, y = extended_gcd(e, phi)
+    return x % phi
     pass
 
 
