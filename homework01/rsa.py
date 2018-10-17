@@ -1,6 +1,6 @@
 import random
 
-def is_prime(n):
+def is_prime(n: int):
     """
     Tests to see if a number is prime.
     >>> is_prime(2)
@@ -22,7 +22,7 @@ def is_prime(n):
     pass
 
 
-def gcd(a, b):
+def gcd(a: int, b: int):
     """
     Euclid's algorithm for determining the greatest common divisor.
     >>> gcd(12, 15)
@@ -39,7 +39,7 @@ def gcd(a, b):
     pass
 
 
-def extended_gcd(m, n):
+def extended_gcd(m: int, n: int):
     x, lastX = 0, 1
     y, lastY = 1, 0
     while (m != 0):
@@ -50,7 +50,7 @@ def extended_gcd(m, n):
     return m, lastY, lastX
 
 
-def multiplicative_inverse(e, phi):
+def multiplicative_inverse(e: int, phi: int):
 
     """
     Euclid's extended algorithm for finding the multiplicative
@@ -63,7 +63,7 @@ def multiplicative_inverse(e, phi):
     pass
 
 
-def generate_keypair(p, q):
+def generate_keypair(p: int, q: int):
     if not (is_prime(p) and is_prime(q)):
         raise ValueError('Both numbers must be prime.')
     elif p == q:
@@ -79,7 +79,7 @@ def generate_keypair(p, q):
     return ((e, n), (d, n))
 
 
-def encrypt(pk, plaintext):
+def encrypt(pk: int, plaintext: str):
     # Unpack the key into it's components
     key, n = pk
     # Convert each letter in the plaintext to numbers based on
@@ -89,7 +89,7 @@ def encrypt(pk, plaintext):
     return cipher
 
 
-def decrypt(pk, ciphertext):
+def decrypt(pk: int, ciphertext: str):
     # Unpack the key into its components
     key, n = pk
     # Generate the plaintext based on the ciphertext and key using a^b mod m
