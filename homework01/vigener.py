@@ -1,4 +1,4 @@
-def encrypt_vigenere(plaintext: str, keyword: str):
+def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     """
     Encrypts plaintext using a Vigenere cipher.
     >>> encrypt_vigenere("PYTHON", "A")
@@ -21,11 +21,11 @@ def encrypt_vigenere(plaintext: str, keyword: str):
                 m -= 26
             ciphertext += chr(m)
         else:
-            chiphertext += j
+            ciphertext += j
     return ciphertext
 
 
-def decrypt_vigenere(ciphertext: str, keyword: str):
+def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     """
     Decrypts a ciphertext using a Vigenere cipher.
     >>> decrypt_vigenere("PYTHON", "A")
