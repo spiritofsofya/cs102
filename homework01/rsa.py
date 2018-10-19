@@ -39,7 +39,7 @@ def gcd(a: int, b: int) -> int:
     pass
 
 
-def extended_gcd(m: int, n: int) -> Tuple[int, int, int]:
+def extended_gcd(m: int, n: int) -> tuple:
     x, lastX = 0, 1
     y, lastY = 1, 0
     while (m != 0):
@@ -59,11 +59,12 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     23
     """
     g, x, y = extended_gcd(e, phi)
-    return x % phi
+    ki = x % phi
+    return ki
     pass
 
 
-def generate_keypair(p: int, q: int) -> ((int, int), (int, int)):
+def generate_keypair(p: int, q: int) -> tuple:
     if not (is_prime(p) and is_prime(q)):
         raise ValueError('Both numbers must be prime.')
     elif p == q:
