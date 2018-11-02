@@ -1,3 +1,6 @@
+import random
+
+
 def read_sudoku(filename):
     """ Прочитать Судоку из указанного файла """
     digits = [c for c in open(filename).read() if c in '123456789.']
@@ -96,8 +99,6 @@ def find_empty_positions(grid):
     return None
 
 
-
-
 def find_possible_values(grid, pos):
     """ Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
@@ -155,9 +156,10 @@ def check_solution(solution):
 
     for row in (0, 3, 6):
         for col in (0, 3, 6):
-            blk_values = set(get_block(solution, (row, col)))
-            if blk_values != set('123456789'):
+            b_val = set(get_block(solution, (row, col)))
+            if b_val != set('123456789'):
                 return False
+    return True
 
 
 
@@ -183,7 +185,16 @@ def generate_sudoku(N):
     >>> check_solution(solution)
     True
     """
-    pass
+    grid = solve([['.'] * 9 for _ in range(9)])
+    N = 81 - min(81, max(0, N))
+    while N:
+        row = random.randint(0, 8)
+        col = random.randint(0, 8)
+        if grid[row][col] != '.':
+            grid[row][col] = '.'
+            N -= 1
+    return grid
+
 
 
 if __name__ == '__main__':
