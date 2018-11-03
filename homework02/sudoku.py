@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from typing import List, Union, Optional, Union
 import random
 
 
@@ -9,18 +9,19 @@ def read_sudoku(filename: str) -> list:
     return grid
 
 
-def display(values: int) -> None:
+def display(values: list) -> None:
     """Вывод Судоку """
     width = 2
     line = '+'.join(['-' * (width * 3)] * 3)
     for row in range(9):
-        print(''.join(values[row][col].center(width) + ('|' if str(col) in '25' else '') for col in range(9)))
+        print(''.join(values[row][col].center(width) +
+                      ('|' if str(col) in '25' else '') for col in range(9)))
         if str(row) in '25':
             print(line)
     print()
 
 
-def group(values: Sized, n: int) -> list:
+def group(values: list, n: int) -> list:
     """
     Сгруппировать значения values в список, состоящий из списков по n элементов
     >>> group([1,2,3,4], 2)
@@ -34,7 +35,7 @@ def group(values: Sized, n: int) -> list:
     return a
 
 
-def get_row(values: int, pos: tuple) -> list:
+def get_row(values: List[list], pos: tuple) -> list:
     """ Возвращает все значения для номера строки, указанной в pos
     >>> get_row([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']], (0, 0))
     ['1', '2', '.']
@@ -47,7 +48,7 @@ def get_row(values: int, pos: tuple) -> list:
     return values[row]
 
 
-def get_col(values: int, pos: tuple) -> list:
+def get_col(values: list, pos: tuple) -> list:
     """ Возвращает все значения для номера столбца, указанного в pos
     >>> get_col([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']], (0, 0))
     ['1', '4', '7']
@@ -63,7 +64,7 @@ def get_col(values: int, pos: tuple) -> list:
     return b
 
 
-def get_block(values: int, pos: tuple) -> list:
+def get_block(values: list, pos: tuple) -> list:
     """ Возвращает все значения из квадрата, в который попадает позиция pos
     >>> grid = read_sudoku('puzzle1.txt')
     >>> get_block(grid, (0, 1))
@@ -83,14 +84,14 @@ def get_block(values: int, pos: tuple) -> list:
     return d
 
 
-def find_empty_positions(grid: list) -> Union[Tuple, None]:
+def find_empty_positions(grid: list) -> Union[tuple, None]:
     """ Найти первую свободную позицию в пазле
-    >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
-    (0, 2)
-    >>> find_empty_positions([['1', '2', '3'], ['4', '.', '6'], ['7', '8', '9']])
-    (1, 1)
-    >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
-    (2, 0)
+    >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], /
+    ['7', '8', '9']])(0, 2)
+    >>> find_empty_positions([['1', '2', '3'], ['4', '.', '6'], /
+    ['7', '8', '9']])(1, 1)
+    >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], /
+    ['.', '8', '9']])(2, 0)
     """
     for row in range(len(grid)):
         for col in range(len(grid)):
@@ -99,7 +100,7 @@ def find_empty_positions(grid: list) -> Union[Tuple, None]:
     return None
 
 
-def find_possible_values(grid: int, pos: tuple) -> set:
+def find_possible_values(grid: list, pos: tuple) -> set:
     """ Вернуть множество возможных значения для указанной позиции
     >>> grid = read_sudoku('puzzle1.txt')
     >>> values = find_possible_values(grid, (0,2))
@@ -117,27 +118,32 @@ def find_possible_values(grid: int, pos: tuple) -> set:
     return t
 
 
-def solve(grid: Union[list, int]) -> Union[list, None]:
+def solve(grid: list) -> Union[list, None]:
     """ Решение пазла, заданного в grid """
     """ Как решать Судоку?
         1. Найти свободную позицию
-        2. Найти все возможные значения, которые могут находиться на этой позиции
+        2. Найти все возможные значения,
+        которые могут находиться на этой позиции
         3. Для каждого возможного значения:
             3.1. Поместить это значение на эту позицию
             3.2. Продолжить решать оставшуюся часть пазла
     >>> grid = read_sudoku('puzzle1.txt')
     >>> solve(grid)
-    [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], /
-    ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], /
-    ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], /
-    ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'],/
+    [['5', '3', '4', '6', '7', '8', '9', '1', '2'], /
+    ['6', '7', '2', '1', '9', '5', '3', '4', '8'], /
+    ['1', '9', '8', '3', '4', '2', '5', '6', '7'], /
+    ['8', '5', '9', '7', '6', '1', '4', '2', '3'], /
+    ['4', '2', '6', '8', '5', '3', '7', '9', '1'], /
+    ['7', '1', '3', '9', '2', '4', '8', '5', '6'], /
+    ['9', '6', '1', '5', '3', '7', '2', '8', '4'], /
+    ['2', '8', '7', '4', '1', '9', '6', '3', '5'],/
      ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
-    pos = find_empty_positions(grid)
-    if not pos:
+    position = find_empty_positions(grid)
+    if not position:
         return grid
-    row, col = pos
-    for value in find_possible_values(grid, pos):
+    row, col = position
+    for value in find_possible_values(grid, position):
         grid[row][col] = value
         result = solve(grid)
         if result:
@@ -146,8 +152,9 @@ def solve(grid: Union[list, int]) -> Union[list, None]:
     return None
 
 
-def check_solution(solution: Union[int, Sized]):
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+def check_solution(solution: list) -> bool:
+    """ Если решение solution верно, то вернуть True,
+        в противном случае False """
     for row in range(len(solution)):
         r_val = set(get_row(solution, (row, 0)))
         if r_val != set('123456789'):
@@ -166,7 +173,7 @@ def check_solution(solution: Union[int, Sized]):
     return True
 
 
-def generate_sudoku(t):
+def generate_sudoku(t: int) -> list:
     """ Генерация судоку заполненного на N элементов
     >>> grid = generate_sudoku(40)
     >>> sum(1 for row in grid for e in row if e == '.')
@@ -192,8 +199,8 @@ def generate_sudoku(t):
     while t:
         row = random.randint(0, 8)
         col = random.randint(0, 8)
-        if grid[row][col] != '.':
-            grid[row][col] = '.'
+        if grid_s[row][col] != '.':
+            grid_s[row][col] = '.'
             t -= 1
     return grid_s
 
