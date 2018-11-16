@@ -56,21 +56,40 @@ class GameOfLife:
             clock.tick(self.speed)
         pygame.quit()
 
-    def cell_list(self, randomize=True):
+    def cell_list(self, randomize=True) -> list:
         """ Создание списка клеток.
         :param randomize: Если True, то создается список клеток, где
         каждая клетка равновероятно может быть живой (1) или мертвой (0).
         :return: Список клеток, представленный в виде матрицы
         """
         self.clist = []
-        # PUT YOUR CODE HERE
+
+        self.clist = [[0] * self.cell_width for i in range(self.cell_height)]
+
+        if randomize:
+            for i in range(self.cell_height):
+                for j in range(self.cell_width):
+                    self.clist[i][j] = random.choice([0, 1])
+
         return self.clist
+
+
 
     def draw_cell_list(self, clist):
         """ Отображение списка клеток
         :param rects: Список клеток для отрисовки, представленный в виде матрицы
         """
-        pass
+        x = 0
+        y = 0
+        for i in range(self.cell_height):
+            for j in range(self.cell_width):
+                if clist[i][j] == 1:
+                    pygame.draw.rect(self.screen, pygame.Color('green'), [x, y, self.cell_size, self.cell_size])
+                else:
+                    pygame.draw.rect(self.screen, pygame.Color('white'), [x, y, self.cell_size, self.cell_size])
+                x += self.cell_size
+            y += self.cell_size
+
 
     def get_neighbours(self, cell):
         """ Вернуть список соседей для указанной ячейки
