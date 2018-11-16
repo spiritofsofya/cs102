@@ -6,7 +6,7 @@ import copy
 
 class GameOfLife:
 
-    def __init__(self, width=640, height=480, cell_size=10, speed=10):
+    def __init__(self, width: int=640, height: int=480, cell_size: int=10, speed: int=10) -> None:
         self.width = width
         self.height = height
         self.cell_size = cell_size
@@ -23,7 +23,7 @@ class GameOfLife:
         # Скорость протекания игры
         self.speed = speed
 
-    def draw_grid(self):
+    def draw_grid(self) -> None:
         """ Отрисовать сетку """
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color('black'),
@@ -45,7 +45,7 @@ class GameOfLife:
                 y += self.cell_size
                 x = 0
 
-    def run(self):
+    def run(self) -> None:
         """ Запустить игру """
         pygame.init()
         clock = pygame.time.Clock()
@@ -70,18 +70,18 @@ class GameOfLife:
 
 class Cell:
 
-    def __init__(self, row, col, state=False):
+    def __init__(self, row: int, col: int, state: bool=False) -> None:
         self.row = row
         self.col = col
         self.state = state
 
-    def is_alive(self):
+    def is_alive(self) -> bool:
         return self.state
 
 
 class CellList:
 
-    def __init__(self, nrows, ncols, randomize=False):
+    def __init__(self, nrows: int, ncols: int, randomize: bool=False) -> None:
         self.nrows = nrows
         self.ncols = ncols
         self.grid = []
@@ -89,12 +89,12 @@ class CellList:
             line = []
             for j in range(ncols):
                 if randomize:
-                    line.append(Cell(i, j, random.choice([0, 1])))
+                    line.append(Cell(i, j, bool(random.choice([0, 1]))))
                 else:
                     line.append(Cell(i, j, False))
             self.grid.append(line)
 
-    def get_neighbours(self, cell):
+    def get_neighbours(self, cell: Cell) -> list:
         neighbours = []
         col, row = cell.col, cell.row
         for st in range(row - 1, row + 2):
@@ -103,7 +103,7 @@ class CellList:
                     neighbours.append(self.grid[st][elem])
         return neighbours
 
-    def update(self):
+    def update(self) -> CellList:
         new_clist = copy.deepcopy(self.grid)
         for cell in self:
             n = sum(k.is_alive() for k in self.get_neighbours(cell))
@@ -114,11 +114,11 @@ class CellList:
         self.grid = new_clist
         return self
 
-    def __iter__(self):
+    def __iter__(self) -> CellList:
         self.i, self.j = 0, 0
         return self
 
-    def __next__(self):
+    def __next__(self) -> Cell:
         if self.i < self.nrows:
             cell = self.grid[self.i][self.j]
             self.j += 1
@@ -129,7 +129,7 @@ class CellList:
         else:
             raise StopIteration
 
-    def __str__(self):
+    def __str__(self) -> str:
         str = ''
         for i in range(self.nrows):
             for j in range(self.ncols):
