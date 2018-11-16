@@ -89,7 +89,7 @@ class GameOfLife:
                     pygame.draw.rect(self.screen, pygame.Color('white'), [x, y, self.cell_size, self.cell_size])
                 x += self.cell_size
             y += self.cell_size
-
+            x = 0
 
     def get_neighbours(self, cell):
         """ Вернуть список соседей для указанной ячейки
@@ -97,8 +97,14 @@ class GameOfLife:
         :return: Одномерный список ячеек, смежных к ячейке cell
         """
         neighbours = []
-        # PUT YOUR CODE HERE
+        x, y = cell
+        for i in range(x - 1, x + 2):
+            for j in range(y - 1, y + 2):
+                if i in range(0, self.cell_height) and j in range(0, self.cell_width) and (i != x or j != y):
+                    neighbours.append(self.clist[i][j])
+
         return neighbours
+
 
     def update_cell_list(self, cell_list):
         """ Выполнить один шаг игры.
