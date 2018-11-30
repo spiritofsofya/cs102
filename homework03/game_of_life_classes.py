@@ -1,7 +1,6 @@
 import pygame
-from pygame.locals import *
 import random
-import copy
+from copy import deepcopy
 
 
 class GameOfLife:
@@ -103,8 +102,8 @@ class CellList:
                     neighbours.append(self.grid[st][elem])
         return neighbours
 
-    def update(self) -> CellList:
-        new_clist = copy.deepcopy(self.grid)
+    def update(self):
+        new_clist = deepcopy(self.grid)
         for cell in self:
             n = sum(k.is_alive() for k in self.get_neighbours(cell))
             if n != 2 and n != 3:
@@ -114,7 +113,7 @@ class CellList:
         self.grid = new_clist
         return self
 
-    def __iter__(self) -> CellList:
+    def __iter__(self):
         self.i, self.j = 0, 0
         return self
 
