@@ -1,7 +1,8 @@
 import requests
 import time
-
-import config
+from config import VK_CONFIG as vk
+from typing import Union, List, Optional
+from api_models import User, Message
 
 
 def get(url, params={}, timeout=5, max_retries=5, backoff_factor=0.3):
@@ -21,8 +22,8 @@ def get(url, params={}, timeout=5, max_retries=5, backoff_factor=0.3):
             if x == max_retries - 1:
                 raise
             delay = backoff_factor * 2 ** x
+            # sleep() прерывает выполнение на заданное время, потом он продолжает работу
             time.sleep(delay)
-
 
 
 def get_friends(user_id, fields):
@@ -43,15 +44,19 @@ def get_friends(user_id, fields):
     }
 
     query = "{domain}/friends.get?".format(domain=vk['domain'])
+    # содержимое скобок format() вставлятся в поле {} в строке
     # делается запрос
     response = get(query, query_params)
+    # получение ответа
     json_doc = response.json()
+    # переформатирование ответа в джейсон
     fail = json_doc.get('error')
-    if fail != 0:
-        return json_doc['response']
+    if fail:
+        raise Exception(json_doc['error']['error_msg'])
+    return response.json()
 
 
-def messages_get_history(user_id, offset=0, count=20):
+def messages_get_history(user_id, offset=0, count=200):
     """ Получить историю переписки с указанным пользователем
 
     :param user_id: идентификатор пользователя, с которым нужно получить историю переписки
@@ -63,6 +68,7 @@ def messages_get_history(user_id, offset=0, count=20):
     assert isinstance(offset, int), "offset must be positive integer"
     assert offset >= 0, "user_id must be positive integer"
     assert count >= 0, "user_id must be positive integer"
+    # ограничения 3 запроса в секунду - 200 сбщ за запрос.
     query_params = {
         'domain': vk['domain'],
         'access_token': vk['access_token'],
@@ -89,5 +95,3 @@ def messages_get_history(user_id, offset=0, count=20):
         i += 200
         query_params['offset'] += i
     return messages
-
-

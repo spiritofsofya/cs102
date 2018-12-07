@@ -30,12 +30,12 @@ def count_dates_from_messages(messages: List[Message]) -> Tuple[Dates, Frequenci
     :param messages: список сообщений
     """
     c = Counter()
-    # counter() считает количество повторящихся дат сообщений
+    # counter() считает количество повторяющихся дат сообщений
     for message in messages:
         date = fromtimestamp(message.date)
         c[date] += 1
     result = list(zip(*c.most_common()))
-    # * превращает итератор в отдельные аргументы
+    # * превращает интератор в отдельные аргументы
     # zip(a, b) создает объект-итератор,
     # из которого при каждом обороте цикла извлекается кортеж, состоящий из двух элементов
     return tuple((sorted(result[0]), [c[date] for date in sorted(result[0])]))

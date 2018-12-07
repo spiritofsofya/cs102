@@ -6,6 +6,8 @@ VK_CONFIG = {
 
 
 PLOTLY_CONFIG = {
-    'username': 'Имя пользователя Plot.ly',
-    'api_key': 'Ключ доступа Plot.ly',
+    'username': 'spiritofsofya',
+    'api_key': 'uZ2tAwngQgDb0XVejoFq',
 }
+
+plotly.tools.set_credentials_file(username='spiritofsofya', api_key='uZ2tAwngQgDb0XVejoFq')
