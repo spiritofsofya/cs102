@@ -23,14 +23,13 @@ class GameOfLife:
         # Скорость протекания игры
         self.speed = speed
 
-    def draw_grid(self) -> None:
+    '''def draw_grid(self) -> None:
         for x in range(0, self.width, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color('black'),
+            pygame.draw.line(self.screen, pygame.Color('white'),
                              (x, 0), (x, self.height))
         for y in range(0, self.height, self.cell_size):
-            pygame.draw.line(self.screen, pygame.Color('black'),
-                             (0, y), (self.width, y))
-
+            pygame.draw.line(self.screen, pygame.Color('white'),
+                             (0, y), (self.width, y))'''
     def run(self) -> None:
         pygame.init()
         clock = pygame.time.Clock()
@@ -44,7 +43,6 @@ class GameOfLife:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
-            self.draw_grid()
             # Отрисовка списка клеток
             # Выполнение одного шага игры (обновление состояния ячеек)
             self.draw_cell_list(self.clist)
