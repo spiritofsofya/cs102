@@ -47,4 +47,5 @@ def plotly_messages_freq(dates: Dates, freq: Frequencies) -> None:
     :param date: список дат
     :param freq: число сообщений в соответствующую дату
     """
-    # PUT YOUR CODE HERE
+    data = [plotly.graph_objs.Scatter(x=dates, y=freq)]
+    plotly.plotly.plot(data)

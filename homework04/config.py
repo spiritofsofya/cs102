@@ -7,7 +7,5 @@ VK_CONFIG = {
 
 PLOTLY_CONFIG = {
     'username': 'spiritofsofya',
-    'api_key': 'uZ2tAwngQgDb0XVejoFq',
+    'api_key': '2aWtMccjavVKB0aKoX8u',
 }
-
-plotly.tools.set_credentials_file(username='spiritofsofya', api_key='uZ2tAwngQgDb0XVejoFq')
