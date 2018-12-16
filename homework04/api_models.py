@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -18,7 +18,10 @@ class User(BaseUser):
 
 class Message(BaseModel):
     """ Модель сообщения """
-    date: int
-    from_id: int
     id: int
-    text: Optional[str]
+    body: Optional[str]
+    user_id: Optional[str]
+    date: float
+    read_state: Optional[int]
+    out: int
+    attachments: Optional[list]
