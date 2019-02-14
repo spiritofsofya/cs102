@@ -33,8 +33,10 @@ def update_news():
     authors = [news['author'] for news in recent_news]
     titles = s.query(News.title).filter(News.author.in_(authors)).subquery()
     existing_news = s.query(News).filter(News.title.in_(titles)).all()
+    titles_bd = [i.title for i in existing_news]
+    authors_bd = [i.author for i in existing_news]
     for news in recent_news:
-        if not existing_news or news not in existing_news:
+        if not existing_news or (news['title'] not in titles_bd and news["author"] not in authors_bd):
             fill(news)
     redirect("/news")
 
@@ -60,4 +62,4 @@ if __name__ == "__main__":
     x_train = [row.title for row in marked_news]
     y_train = [row.label for row in marked_news]
     #classifier.fit(x_train, y_train)
-    run(host="localhost", port=8080)
+    run(host="localhost", port=8081)
