@@ -3,9 +3,9 @@ import time
 import config
 
 
-def get(url: str, params, timeout=1, max_retries=5, backoff_factor=0.3):
+def get(url: str, params={}, timeout=1, max_retries=5, backoff_factor=0.3):
     """ Выполнить GET-запрос
-    :param url: адрес, на который необходимо выполнить запрос
+    :param url: адрес, на который необходимо выполнить запросas_edgelist
     :param params: параметры запроса
     :param timeout: максимальное время ожидания ответа от сервера
     :param max_retries: максимальное число повторных запросов

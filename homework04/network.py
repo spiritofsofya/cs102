@@ -20,7 +20,6 @@ def get_network(users_ids, as_edgelist=True) -> list:
                     matrix[user1][user2] = 1
                     matrix[user2][user1] = 1
         time.sleep(0.4)
-        print("loading...")
 
     if as_edgelist:
         return graph
@@ -29,7 +28,7 @@ def get_network(users_ids, as_edgelist=True) -> list:
 
 
 def plot_graph(graph):
-    friends = get_friends(57902269)
+    friends = get_friends(user_id)
     vertices = [i for i in range(len(friends))]  # количество вершин
     edges = graph  # ребра графа
 
