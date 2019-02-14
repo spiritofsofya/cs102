@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import time
 
 
 def extract_news(parser):
@@ -50,7 +51,7 @@ def extract_next_page(parser):
     return next_page_code
 
 
-def get_news(url, n_pages=1):
+def get_news(url='https://news.ycombinator.com/newest', n_pages=1):
     """ Collect news from a given web page """
     news = []
     while n_pages:
@@ -62,10 +63,6 @@ def get_news(url, n_pages=1):
         url = "https://news.ycombinator.com/" + next_page
         news.extend(news_list)
         n_pages -= 1
+        time.sleep(2)
     return news
-
-
-news_list = get_news("https://news.ycombinator.com/newest", n_pages=2)
-print(news_list[:3])
-
 
