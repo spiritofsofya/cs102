@@ -7,8 +7,8 @@ def extract_news(parser):
     news_list = []
     table_list = parser.table.findAll('table')
     news_table = table_list[1]
-    all_rows = news_table.findAll('td')[:90]
-    news_rows = (all_rows[i], all_rows[i + 1] for i in range(90) if i % 3 == 0)
+    all_rows = news_table.findAll('tr')[:90]
+    news_rows = ([all_rows[i], all_rows[i + 1]] for i in range(90) if i % 3 == 0)
     for news in news_rows:
         first_line = news[0].findAll('td')[2]
         second_line = news[1].findAll('td')[1]
@@ -40,7 +40,14 @@ def extract_news(parser):
 
 def extract_next_page(parser):
     """ Extract next page URL """
-    # PUT YOUR CODE HERE
+    table_list = parser.table.findAll('table')
+    news_table = table_list[1]
+    last_row = news_table.findAll('tr')[91]
+    link = str(last_row.findAll('td')[1].a)
+    url_start = link.find('newest')
+    url_end = link.find('" rel=')
+    next_page_code = link[url_start:url_end]
+    return next_page_code
 
 
 def get_news(url, n_pages=1):
@@ -56,4 +63,9 @@ def get_news(url, n_pages=1):
         news.extend(news_list)
         n_pages -= 1
     return news
+
+
+news_list = get_news("https://news.ycombinator.com/newest", n_pages=2)
+print(news_list[:3])
+
 
