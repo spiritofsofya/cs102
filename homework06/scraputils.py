@@ -51,7 +51,7 @@ def extract_next_page(parser):
     return next_page_code
 
 
-def get_news(url='https://news.ycombinator.com/newest', n_pages=10):
+def get_news(url='https://news.ycombinator.com/newest', n_pages=1):
     """ Collect news from a given web page """
     news = []
     while n_pages:

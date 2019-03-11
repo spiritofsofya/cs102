@@ -1,10 +1,8 @@
-from bottle import (
-    route, run, template, request, redirect
-)
+from bottle import route, run, template, request, redirect
 
 from scraputils import get_news
 from db import News, session, fill
-from bayes import NaiveBayesClassifier
+from bayes import NaiveBayesClassifier, clean
 
 
 @route("/news")
@@ -41,25 +39,39 @@ def update_news():
     redirect("/news")
 
 
-'''@route("/classify")
-def classify_news():
-    recently_marked_news = s.query(News).filter(News.title not in x_train and News.label != None).all()
-    x_extra_train = [row.title for row in recently_marked_news]
-    y_extra_train = [row.label for row in recently_marked_news]
-    classifier.fit(x_extra_train, y_extra_train)
+@route('/recommendations')
+def recommendations():
+    # 1. Classify labeled news
+    rows = s.query(News).filter(News.label != None).all()
 
-    blank_rows = s.query(News).filter(News.label == None).all()
-    x = [row.title for row in blank_rows]
-    labels = classifier.predict(x)
-    classified_news = [blank_rows[i] for i in range(len(blank_rows)) if labels[i] == 'good']
-    return template('news_recommendations', rows=classified_news)'''
+    x, y = [], []
+    for row in rows:
+        x.append(row.title)
+        y.append(row.label)
+
+    x = [clean(x).lower() for x in X]
+
+    model = NaiveBayesClassifier()
+    model.fit(x, y)
+
+    # 2. Get unlabeled news
+    new_rows = s.query(News).filter(News.label == None).all()
+
+    # 3. Get predictions
+    marked = []
+    for row in new_rows:
+        marked.append((model.predict(row.title.split()), row))
+
+    # 4. Print ranked table
+    return template('news_recommendations', rows=marked)
 
 
 if __name__ == "__main__":
     s = session()
-    #classifier = NaiveBayesClassifier()
+    classifier = NaiveBayesClassifier()
     marked_news = s.query(News).filter(News.label != None).all()
     x_train = [row.title for row in marked_news]
     y_train = [row.label for row in marked_news]
-    #classifier.fit(x_train, y_train)
+    classifier.fit(x_train, y_train)
     run(host="localhost", port=8081)
+
