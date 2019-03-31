@@ -49,7 +49,7 @@ def recommendations():
         x.append(row.title)
         y.append(row.label)
 
-    x = [clean(x).lower() for x in X]
+    x = [clean(k).lower() for k in x]
 
     model = NaiveBayesClassifier()
     model.fit(x, y)
@@ -73,5 +73,6 @@ if __name__ == "__main__":
     x_train = [row.title for row in marked_news]
     y_train = [row.label for row in marked_news]
     classifier.fit(x_train, y_train)
-    run(host="localhost", port=8081)
+    run(host="localhost", port=8082)
+
 
