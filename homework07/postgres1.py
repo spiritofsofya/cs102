@@ -106,7 +106,7 @@ print('Максимальный возраст мужчин расы Amer-Indian
 print(tabulate(fetch_all(cursor), "keys", "psql"))
 
 
-'''8. Среди кого больше доля зарабатывающих много (>50K): среди женатых или холостых мужчин (признак marital-status)?
+''''''8. Среди кого больше доля зарабатывающих много (>50K): среди женатых или холостых мужчин (признак marital-status)?
 Женатыми считаем тех, у кого marital-status начинается с Married (Married-civ-spouse, Married-spouse-absent или Married-AF-spouse), остальных считаем холостыми.'''
 
 cursor.execute("""

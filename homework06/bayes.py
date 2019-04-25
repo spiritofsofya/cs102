@@ -12,7 +12,7 @@ class NaiveBayesClassifier:
         self.labels_p = {}
 
     def fit(self, x, y):
-        # 1. Add all unique vectors from messages (x)
+        # 1. Считаем кол-во слов в каждой строке, кол-во
         for i in range(len(x)):
             for word in x[i].split():
                 if self.vectors.get(word):
