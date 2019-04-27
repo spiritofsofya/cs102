@@ -3,11 +3,6 @@ from sklearn.datasets import load_boston
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import r2_score
-from sklearn.linear_model import SGDRegressor
-from sklearn.preprocessing import StandardScaler
-
 
 class GDRegressor:
 
@@ -102,7 +97,7 @@ if __name__ == '__main__':
     X = data[["RM"]]
     y = data["MEDV"]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=18)
-    model = GDRegressor(alpha=0.04, n_iter=2000)
+    model = GDRegressor(alpha=0.03, n_iter=4500)
     model.fit(X_train, y_train)
     prediction = model.predict(X_test)
     print(prediction)
