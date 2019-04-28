@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
 
+
 class GDRegressor:
 
     def __init__(self, alpha=0.01, n_iter=100):
